@@ -25,12 +25,13 @@ p{font-size:36px;line-height:1.7;margin:14px 0 26px;text-shadow:0 2px 8px rgba(0
 </head>
 <body>
 <div class="card">
-<p>لتحميل تطبيق الحافظ المتقن <a class="lnk" href="https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&amp;export=download&amp;confirm=t" onclick="return dl(event)">اضغط هنا</a></p>
-<a class="btn" id="btn" href="https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&amp;export=download&amp;confirm=t" onclick="return dl(event)">⬇ تحميل التطبيق</a>
+<p>لتحميل تطبيق الحافظ المتقن <a class="lnk" href="https://github.com/sheta-apps/hafez-app/releases/download/v5.6/Mutashabihat-Quran.apk" onclick="return dl(event)">اضغط هنا</a></p>
+<a class="btn" id="btn" href="https://github.com/sheta-apps/hafez-app/releases/download/v5.6/Mutashabihat-Quran.apk" onclick="return dl(event)">⬇ تحميل التطبيق</a>
 <div class="st" id="st"><div class="txt" id="txt"></div><div class="track"><div class="fill" id="fill"></div></div></div>
 </div>
 <script>
-var DL='https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&export=download&confirm=t';
+var DL='Mutashabihat-Quran.apk';
+var REL='https://github.com/sheta-apps/hafez-app/releases/download/v5.6/Mutashabihat-Quran.apk';
 var busy=false;
 function ar(n){return n.toLocaleString('ar-EG');}
 async function dl(e){e.preventDefault();if(busy)return false;busy=true;
@@ -44,11 +45,11 @@ for(;;){var x=await rd.read();if(x.done)break;chunks.push(x.value);got+=x.value.
 var p=Math.min(99,Math.round(got/total*100));fill.style.width=p+'%';txt.textContent='جاري التنزيل... '+ar(p)+'٪';}
 var blob=new Blob(chunks,{type:'application/vnd.android.package-archive'});
 var u=URL.createObjectURL(blob),a=document.createElement('a');
-a.href=u;a.download='Alhafiz-Almutqin.apk';document.body.appendChild(a);a.click();a.remove();
+a.href=u;a.download='Mutashabihat-Quran.apk';document.body.appendChild(a);a.click();a.remove();
 fill.style.width='100%';txt.textContent='تم التحميل ✅ افتح الملف عشان يبدأ التثبيت';
 }catch(err){
 txt.textContent='جاري التنزيل...';
-var f=document.createElement('iframe');f.style.display='none';f.src=DL;document.body.appendChild(f);
+location.href=REL;
 }
 busy=false;return false;}
 </script>
