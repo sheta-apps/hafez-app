@@ -17,15 +17,40 @@ p{font-size:36px;line-height:1.7;margin:14px 0 26px;text-shadow:0 2px 8px rgba(0
 .btn{display:inline-block;background:linear-gradient(180deg,#e3c565,#c9a227);color:#1d1503;font-family:inherit;font-size:28px;font-weight:700;text-decoration:none;padding:14px 54px;border-radius:999px;box-shadow:0 8px 24px rgba(201,162,39,.35),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .12s ease,box-shadow .12s ease}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,162,39,.45),inset 0 1px 0 rgba(255,255,255,.5)}
 .btn:active{transform:translateY(0)}
+.st{display:none;margin-top:26px}
+.st .txt{font-size:26px;color:#e3c565;margin-bottom:10px}
+.track{height:10px;border-radius:999px;background:rgba(245,237,214,.18);overflow:hidden}
+.fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#e3c565,#c9a227);transition:width .15s ease}
 </style>
 </head>
 <body>
 <div class="card">
 <p>لتحميل تطبيق الحافظ المتقن <a class="lnk" href="https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&amp;export=download&amp;confirm=t" onclick="return dl(event)">اضغط هنا</a></p>
-<a class="btn" href="https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&amp;export=download&amp;confirm=t" onclick="return dl(event)">⬇ تحميل التطبيق</a>
+<a class="btn" id="btn" href="https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&amp;export=download&amp;confirm=t" onclick="return dl(event)">⬇ تحميل التطبيق</a>
+<div class="st" id="st"><div class="txt" id="txt"></div><div class="track"><div class="fill" id="fill"></div></div></div>
 </div>
 <script>
-function dl(e){e.preventDefault();var f=document.createElement('iframe');f.style.display='none';f.src='https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&export=download&confirm=t';document.body.appendChild(f);return false;}
+var DL='https://drive.usercontent.google.com/download?id=1IcokUE7O6KqKUUSWH-8EgNb5lF4Au3bG&export=download&confirm=t';
+var busy=false;
+function ar(n){return n.toLocaleString('ar-EG');}
+async function dl(e){e.preventDefault();if(busy)return false;busy=true;
+var st=document.getElementById('st'),txt=document.getElementById('txt'),fill=document.getElementById('fill');
+st.style.display='block';fill.style.width='0%';txt.textContent='جاري التنزيل...';
+try{
+var r=await fetch(DL);if(!r.ok||!r.body)throw 0;
+var total=+r.headers.get('content-length')||12013389;
+var rd=r.body.getReader(),chunks=[],got=0;
+for(;;){var x=await rd.read();if(x.done)break;chunks.push(x.value);got+=x.value.length;
+var p=Math.min(99,Math.round(got/total*100));fill.style.width=p+'%';txt.textContent='جاري التنزيل... '+ar(p)+'٪';}
+var blob=new Blob(chunks,{type:'application/vnd.android.package-archive'});
+var u=URL.createObjectURL(blob),a=document.createElement('a');
+a.href=u;a.download='Alhafiz-Almutqin.apk';document.body.appendChild(a);a.click();a.remove();
+fill.style.width='100%';txt.textContent='تم التحميل ✅ افتح الملف عشان يبدأ التثبيت';
+}catch(err){
+txt.textContent='جاري التنزيل...';
+var f=document.createElement('iframe');f.style.display='none';f.src=DL;document.body.appendChild(f);
+}
+busy=false;return false;}
 </script>
 </body>
 </html>
